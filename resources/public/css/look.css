@@ -1,0 +1,13 @@
+#field {
+    float:left;
+}
+#field, #debug {
+    border:1px solid black;
+}
+#debug {
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:400px;
+    height:250px;
+}

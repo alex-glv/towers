@@ -10,4 +10,12 @@
         body (goog.dom/getElement "field")]
     (.render cg body)))
 
-(set! (.-onload (.-body js/document)) set-canvas )
+(defn handler []
+  (set-canvas))
+
+(defn render-grid [sx sy]
+  (let [v-lines (.round js/Math (/ sx 10))
+        h-lines (.round js/Math (/ sy 20))]
+    ))
+
+(set! (.-onload (.-body js/document)) handler)
