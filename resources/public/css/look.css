@@ -1,16 +1,13 @@
 #field {
     height:700px;
     overflow:scroll;
-    float:left;
+    width:640px;
 }
 #field, #debug {
     border:1px solid black;
     margin:20px;
 }
 #debug {
-    position:fixed;
-    top:0;
-    right:0;
     width:500px;
     height:250px;
     padding:15px;
