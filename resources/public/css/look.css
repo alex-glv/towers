@@ -5,7 +5,7 @@
 }
 #field, #debug {
     border:1px solid black;
-    margin:20px;
+    margin:30px;
 }
 #debug {
     width:600px;
@@ -15,5 +15,19 @@
     overflow:scroll;
 }
 #debug span {
-    display:block;
+    margin-right:5px;
+}
+#debug .log-time {
+    font-style:italic;
+}
+#debug .log-entry {
+
+}
+#cursors {
+    position:fixed;
+    top:0;
+    left:0;
+    border:1px solid black;
+    height:20px;
+    width:120px;
 }
