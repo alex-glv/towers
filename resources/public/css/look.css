@@ -8,8 +8,12 @@
     margin:20px;
 }
 #debug {
-    width:500px;
-    height:250px;
+    width:600px;
+    height:150px;
     padding:15px;
     font-size:0.9em;
+    overflow:scroll;
+}
+#debug span {
+    display:block;
 }

@@ -8,7 +8,7 @@
   (.lineTo context (first to-point-vec) (last to-point-vec))
   (.stroke context))
 
-(defn render-grid [obj canvas]
+(defn render-grid [obj canvas _ __]
   (let [lny (:y obj)
         lnx (:x obj)
         width (.-width canvas)
@@ -32,4 +32,22 @@
             (draw-a-line! [0 nth-line-end] [width nth-line-end] context))
           (recur (+ n 1)))))))
 
+(defn translate-cell-to-pos [cell cell-dim]
+  [(* (first cell) (:w cell-dim)) (* (last cell) (:h cell-dim))])
 
+(defn render-islands [obj canvas cell field]
+  (doseq [isl-vec obj]
+    (let [cell-d (:dimensions cell)
+          rects (map #(translate-cell-to-pos %1 cell-d) isl-vec)
+          context (.getContext canvas)]
+      (doseq [rec rects]
+        (debug/log "fl rec: " (first rec) (last rec))
+        (debug/log "celld: " cell-d)
+        (debug/log canvas)
+        (.rect context 
+               (first rec)
+               (last rec)
+               (:w cell-d)
+               (:h cell-d))
+        (set! (.-fillStyle context) "black")
+        (.fill context)))))
