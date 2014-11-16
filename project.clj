@@ -8,7 +8,7 @@
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [compojure "1.2.1"]
                  [ring-server "0.3.1"]
-                 [prismatic/dommy "1.0.0"]]
+                 [domina "1.0.2"]]
     
   :source-paths ["src/clj" "src/cljs"]
   :plugins [[lein-cljsbuild "1.0.3"]

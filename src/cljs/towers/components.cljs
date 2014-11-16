@@ -3,8 +3,8 @@
 (defn add-to [to {:keys [obj fn]}]
   (swap! to conj {:obj obj :fn fn}))
 
-(def field {:dimensions {:w 960
-                         :h 640}
+(def field {:dimensions {:h 960
+                         :w 640}
             :grid {:x 20
                    :y 40}})
 
@@ -15,4 +15,6 @@
 (def renderables (atom []))
 
 ;; todo: export islands definitions into levels
-(def islands [['(1 1) '(1 2) '(1 3)] ['(7 8) '(7 9) '(8 8)]])
+(def islands [['(1 1) '(1 2) '(1 3)]
+              ['(7 8) '(7 9) '(8 8)]
+              ['(14 20) '(14 21) '(14 22) '(15 20) '(15 21) '(15 22)]])
