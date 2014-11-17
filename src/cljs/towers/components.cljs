@@ -3,6 +3,12 @@
 (defn add-to [to {:keys [obj fn]}]
   (swap! to conj {:obj obj :fn fn}))
 
+(defn dimensions [h w]
+  {:h h :w w})
+
+(defn position [x y]
+  {:x x :y y})
+
 (def field {:dimensions {:h 960
                          :w 640}
             :grid {:x 20
@@ -10,7 +16,6 @@
 
 (def cell {:dimensions {:w (/ (-> field :dimensions :w) (-> field :grid :x))
                         :h (/ (-> field :dimensions :h) (-> field :grid :y))}})
-
 
 (def renderables (atom []))
 

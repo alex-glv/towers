@@ -13,8 +13,10 @@
   :source-paths ["src/clj" "src/cljs"]
   :plugins [[lein-cljsbuild "1.0.3"]
             [lein-ring "0.8.12"]
-            [com.cemerick/austin "0.1.5"]]
+            [com.cemerick/austin "0.1.5"]
+            [cider/cider-nrepl "0.8.0-SNAPSHOT"]]
   :ring {:handler towers.core/handler}
+  
   :cljsbuild {:builds
               [{;; CLJS source code path
                 :source-paths ["src/cljs"]
