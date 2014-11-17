@@ -14,6 +14,9 @@
   {:d (dimensions h w)
    :pos (position x y)})
 
+(defn cell-pos [col row]
+  {:col col :row row})
+
 (defn field [dimensions grid]
   (let [h (/ (:h dimensions) (:h grid))
         w (/ (:w dimensions) (:w grid))
