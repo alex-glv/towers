@@ -16,7 +16,7 @@
             [com.cemerick/austin "0.1.5"]
             [cider/cider-nrepl "0.8.0-SNAPSHOT"]]
   :ring {:handler towers.core/handler}
-  
+  :main towers.core
   :cljsbuild {:builds
               [{;; CLJS source code path
                 :source-paths ["src/cljs"]

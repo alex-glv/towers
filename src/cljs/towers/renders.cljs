@@ -2,41 +2,21 @@
   (:require [goog.graphics :as graphics]
             [towers.debug :as debug]))
 
-(defn- draw-a-line! [from-point-vec to-point-vec context]
-  (.beginPath context)
-  (.moveTo context (first from-point-vec) (last from-point-vec))
-  (.lineTo context (first to-point-vec) (last to-point-vec))
-  (.stroke context))
-
-(defn render-grid [obj canvas _ __]
-  (let [lny (:y obj)
-        lnx (:x obj)
-        width (.-width canvas)
-        height (.-height canvas)
-        context (.getContext canvas)
-        v-lines (.round js/Math (/ width lnx))
-        h-lines (.round js/Math (/ height lny))]
-    (debug/log "Drawing grid" lnx "x" lny)
-    (loop [n 1]
-      (if (or (= n (- lnx 1))
-              (< n (- lnx 1)))
-        (do
-          (let [nth-line-end (* n v-lines)]
-            (draw-a-line! [nth-line-end 0] [nth-line-end height] context))
-          (recur (+ n 1)))))
-    (loop [n 1]
-      (if (or (= n (- lny 1))
-              (< n (- lny 1)))
-        (do
-          (let [nth-line-end (* n h-lines)]
-            (draw-a-line! [0 nth-line-end] [width nth-line-end] context))
-          (recur (+ n 1)))))))
+(defn render-grid [field canvas r]
+  (let [context (.getContext canvas)]
+    (debug/log "Rendering grid with " (count field) " items")
+    (doseq [cell field]
+      (debug/log cell)
+      (.strokeRect context
+             (-> cell :pos :x)
+             (-> cell :pos :y)
+             (-> cell :d :w)
+             (-> cell :d :h))
+      ;; (set! (.-fillStyle context) "black")
+)))
 
 (defn translate-cell-to-pos [cell cell-dim]
-  (debug/log cell)
-  (debug/log cell-dim)
   (let [ret  [(* (first cell) (:w cell-dim)) (* (last cell) (:h cell-dim))]]
-    (debug/log ret)
     ret))
 
 (defn render-islands [obj canvas cell field]
@@ -44,7 +24,6 @@
     (let [cell-d (:dimensions cell)
           rects (map #(translate-cell-to-pos %1 cell-d) isl-vec)
           context (.getContext canvas)]
-      (debug/log rects)
       (doseq [rec rects]
         (.rect context 
                (first rec)
