@@ -23,11 +23,10 @@
         w (/ (:w f-dimensions) (:w grid))
         cells-total (* (:w grid) (:h grid))]
     (loop [n 1 cells []]
-      (if (< n cells-total)
-        ;; fixme: fix cells on the edges of the grid
+      (if (<= n cells-total)
         (let [mod-c (mod n (:w grid))
               col (if (= mod-c 0) (:w grid) mod-c)
-              row (+ (int (/ n (:w grid))) 1)
+              row (+ (int (/ (- n 1) (:w grid))) 1)
               x (* (- col 1) w)
               y (* (- row 1) h)]
           (recur (+ n 1) (conj cells (cell h w x y col row))))
