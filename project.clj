@@ -23,7 +23,7 @@
                 ;; Google Closure (CLS) options configuration
                 :compiler {;; CLS generated JS script filename
                            :output-to "resources/public/js/towers.js"
-                           :externs ["resources/public/js/externs/jquery-2.1.1.js"]
+                           :externs ["resources/public/js/pixi.js"]
                            ;; minimal JS optimization directive
                            :optimizations :whitespace
                            ;; generated JS code prettyfication

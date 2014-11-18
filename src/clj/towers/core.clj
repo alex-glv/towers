@@ -4,8 +4,9 @@
             [compojure.route :as route]
             [ring.server.standalone :as ring-server]
             [ring.middleware file-info file]
-            [clojure.tools.nrepl.server :as nrepl-server]
-            [cider.nrepl :refer (cider-nrepl-handler)]))
+            ;;[clojure.tools.nrepl.server :as nrepl-server]
+            ;;[cider.nrepl :refer (cider-nrepl-handler)]
+            ))
 
 (def repl-env (reset! cemerick.austin.repls/browser-repl-env
                       (cemerick.austin/repl-env)))
@@ -44,6 +45,3 @@
 (defn server-stop []
   (.stop @server)
   (reset! server nil))
-
-(defn- main []
-  (nrepl-server/start-server :port 7888 :handler cider-nrepl-handler))

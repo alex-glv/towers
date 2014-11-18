@@ -10,25 +10,27 @@
 (defn position [x y]
   {:x x :y y})
 
-(defn cell [h w x y]
-  {:d (dimensions h w)
-   :pos (position x y)})
-
 (defn cell-pos [col row]
   {:col col :row row})
 
-(defn field [dimensions grid]
-  (let [h (/ (:h dimensions) (:h grid))
-        w (/ (:w dimensions) (:w grid))
+(defn cell [h w x y ccol crow]
+  {:d (dimensions h w)
+   :pos (position x y)
+   :cpos (cell-pos ccol crow)})
+
+(defn field [f-dimensions grid]
+  (let [h (/ (:h f-dimensions) (:h grid))
+        w (/ (:w f-dimensions) (:w grid))
         cells-total (* (:w grid) (:h grid))]
-    (debug/log "w grid: " (:w grid))
-    (debug/log "h grid: " (:h grid))
     (loop [n 1 cells []]
-      (if (<= n cells-total)
-        (let [x (* n w)
-              y (* n h)]
-          ;; fixme: it's all wrong
-          (recur (+ n 1) (conj cells (cell h w x y))))
+      (if (< n cells-total)
+        ;; fixme: fix cells on the edges of the grid
+        (let [mod-c (mod n (:w grid))
+              col (if (= mod-c 0) (:w grid) mod-c)
+              row (+ (int (/ n (:w grid))) 1)
+              x (* (- col 1) w)
+              y (* (- row 1) h)]
+          (recur (+ n 1) (conj cells (cell h w x y col row))))
         cells))))
 
 
