@@ -1,11 +1,9 @@
 (ns towers.core
-  (:use compojure.core)
   (:require [compojure.handler :as handler]
+            [compojure.core :as comp]
             [compojure.route :as route]
             [ring.server.standalone :as ring-server]
             [ring.middleware file-info file]
-            ;;[clojure.tools.nrepl.server :as nrepl-server]
-            ;;[cider.nrepl :refer (cider-nrepl-handler)]
             ))
 
 (def repl-env (reset! cemerick.austin.repls/browser-repl-env
@@ -14,9 +12,9 @@
   ([handler] (cemerick.austin.repls/cljs-repl handler))
   ([] (start-cljs-repl repl-env)))
 
-(defroutes app-routes
+(comp/defroutes app-routes
   ; to serve document root address
-  (GET "/" [] "<p>Hello from compojure</p>")
+  (comp/GET "/" [] "<p>Hello from compojure</p>")
   ; to serve static pages saved in resources/public directory
   (route/resources "/")
   ; if page is not found

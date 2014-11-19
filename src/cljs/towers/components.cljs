@@ -1,8 +1,10 @@
 (ns towers.components
   (:require [towers.debug :as debug]))
 
-(defn add-to [to {:keys [obj fn]} & r]
-  (swap! to conj {:obj obj :fn fn :r r}))
+(def renderables (atom []))
+
+(defn add-to [to {:keys [obj fn ch]}]
+  (swap! to conj {:obj obj :fn fn :ch ch}))
 
 (defn dimensions [h w]
   {:h h :w w})
@@ -17,6 +19,9 @@
   {:d (dimensions h w)
    :pos (position x y)
    :cpos (cell-pos ccol crow)})
+
+(defn island [col row]
+  {:cpos (cell-pos col row)})
 
 (defn field [f-dimensions grid]
   (let [h (/ (:h f-dimensions) (:h grid))
@@ -33,11 +38,9 @@
         cells))))
 
 
-(def renderables (atom []))
-
 ;; todo: export islands definitions into levels
-(def islands [['(1 1) '(1 2) '(1 3)]
-              ['(7 8) '(7 9) '(8 8)]
-              ['(14 20) '(14 21) '(14 22) '(15 20) '(15 21) '(15 22)]])
+(def islands [[(island 1 1) (island 1 2) (island 1 3)]
+              [(island 7 8) (island 7 9) (island 8 8)]
+              [(island 14 20) (island 14 21) (island 14 22) (island 15 20) (island 15 21) (island 15 22)]])
 
 

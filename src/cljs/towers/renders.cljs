@@ -1,17 +1,18 @@
 (ns towers.renders
-  (:require [goog.graphics :as graphics]
-            [towers.debug :as debug]))
+  (:require [towers.debug :as debug]
+            [cljs.core.async :refer [chan >! <! put!]])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn render-grid [field renderer stage r]
+(defn render-grid [field renderer stage clicks]
   (debug/log "Rendering grid with " (count field) " items")
   (doseq [cell field]
-    (debug/log cell)
     (let [rect (new js/PIXI.Graphics)]
       (.lineStyle rect 1 0x000000)
       (.drawRect rect (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h))
       (.addChild stage rect)
-      (.render renderer stage))
-    ))
+      (set! (.-interactive rect) true)
+      (set! (.-hitArea rect) (new js/PIXI.Rectangle (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h)))
+      (set! (.-click rect) #(put! clicks cell)))))
 
 (defn render-islands [obj canvas cell field]
   ;; (doseq [isl-vec obj]
