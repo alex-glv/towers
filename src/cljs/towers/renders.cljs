@@ -14,17 +14,17 @@
       (set! (.-hitArea rect) (new js/PIXI.Rectangle (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h)))
       (set! (.-click rect) #(put! clicks cell)))))
 
-(defn render-islands [obj canvas cell field]
-  ;; (doseq [isl-vec obj]
-  ;;   (let [cell-d (:dimensions cell)
-  ;;         rects (map #(translate-cell-to-pos %1 cell-d) isl-vec)
-  ;;         context (.getContext canvas)]
-  ;;     (doseq [rec rects]
+(defn render-islands [islands renderer stage click-isl]
+  ;; (doseq [isl-vec islands]
+  ;;   (doseq [rec isl-vec]
+  ;;     (let [isl-cell-pos (:cpos rec)
+  ;;           rect-grp (new js/PIXI.Graphics)]
   ;;       (.rect context 
   ;;              (first rec)
   ;;              (last rec)
   ;;              (:w cell-d)
   ;;              (:h cell-d))
   ;;       (set! (.-fillStyle context) "black")
-  ;;       (.fill context))))
+  ;;       (.fill context)))
+  ;;   )
   )

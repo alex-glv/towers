@@ -3,6 +3,8 @@
 
 (def renderables (atom []))
 
+(def field-cells (atom []))
+
 (defn add-to [to {:keys [obj fn ch]}]
   (swap! to conj {:obj obj :fn fn :ch ch}))
 
@@ -37,6 +39,8 @@
           (recur (+ n 1) (conj cells (cell h w x y col row))))
         cells))))
 
+(defn get-pos-from-cell-pos [cellpos]
+  )
 
 ;; todo: export islands definitions into levels
 (def islands [[(island 1 1) (island 1 2) (island 1 3)]
