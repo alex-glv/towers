@@ -42,5 +42,4 @@
                           ;;                     :ch clicks-isl})
                           )]
     (render-all renderer stage)))
-
 (set! (.-onload (.-body js/document)) handler)
