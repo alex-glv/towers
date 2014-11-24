@@ -13,6 +13,7 @@
           fn (:fn rend)
           cl-ch (:ch rend)]
       (fn obj renderer stage cl-ch)))
+  (debug/log "Rendering")
   (set! (.-interactive stage) true)
   (.render renderer stage))
 
@@ -23,23 +24,23 @@
 
 (defn handler []
   (let [canvas-dimensions (components/dimensions 960 640)
-        grid-dimensions (components/dimensions 40 20)
+        field-dimensions (components/dimensions 832 640)
+        grid-dimensions (components/dimensions 13 10)
         renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h) nil true true)
         stage (new js/PIXI.Stage 0xFFFFFF)
         clicks (chan)
         clicks-isl (chan)
-        loader-callback (fn []
-                          (clicks-listener clicks)
-                          (dom/append! (dom/by-id "field") (.-view renderer))
-                          (components/add-to components/renderables
-                                             {:obj (components/field canvas-dimensions grid-dimensions)
-                                              :fn render/render-grid
-                                              :ch clicks})
-
                           ;; (components/add-to components/renderables
                           ;;                    {:obj components/islands
                           ;;                     :fn render/render-islands
                           ;;                     :ch clicks-isl})
-                          )]
+        ]
+    
+    (clicks-listener clicks)
+    (dom/append! (dom/by-id "field") (.-view renderer))
+    (components/add-to components/renderables
+                       {:obj (components/field field-dimensions grid-dimensions)
+                        :fn render/render-grid
+                        :ch clicks})
     (render-all renderer stage)))
 (set! (.-onload (.-body js/document)) handler)

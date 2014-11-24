@@ -7,8 +7,6 @@
   (debug/log "Rendering grid with " (count field) " items")
   (doseq [cell field]
     (let [rect (new js/PIXI.Graphics)]
-      (.lineStyle rect 1 0x000000)
-      (.drawRect rect (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h))
       (.addChild stage rect)
       (set! (.-interactive rect) true)
       (set! (.-hitArea rect) (new js/PIXI.Rectangle (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h)))

@@ -14,4 +14,4 @@
     (dom/append prnt tm)
     (dom/append prnt entr)
     (dom/append log-div prnt)
-    (set! (.-scrollTop log-div) 10000)))
+    (set! (.-scrollTop log-div) 10000000)))
