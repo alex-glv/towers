@@ -7,15 +7,12 @@
             [domina :as dom])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-
-
 (defn setup-elements []
-
   (doseq [rend  @components/renderables]
     (let [obj (:obj rend)
-          fn (:fn rend)
+          func (:fn rend)
           cl-ch (:ch rend)]
-      (fn obj (:renderer render) (:stage render) cl-ch))))
+      (func obj (:renderer render) (:stage render) cl-ch))))
 
 (defn render-all []
   (.render (:renderer render) (:stage render))
