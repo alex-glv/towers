@@ -14,7 +14,6 @@
           cl-ch (:ch rend)]
       (fn obj renderer stage cl-ch)))
   (debug/log "Rendering")
-  (set! (.-interactive stage) true)
   (.render renderer stage))
 
 (defn clicks-listener [channel]
@@ -26,13 +25,12 @@
   (let [canvas-dimensions (components/dimensions 960 640)
         field-dimensions (components/dimensions 832 640)
         grid-dimensions (components/dimensions 13 10)
-        renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h) nil true true)
-        stage (new js/PIXI.Stage 0xFFFFFF)
+        renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h))
+        stage (new js/PIXI.Stage 0xFFFFFF true)
         clicks (chan)
         clicks-isl (chan)
         field (components/field field-dimensions grid-dimensions)
         islands (map (fn [isl] (components/attach-cell isl field)) components/islands)]
-    
     (clicks-listener clicks)
     (dom/append! (dom/by-id "field") (.-view renderer))
     (components/add-to components/renderables

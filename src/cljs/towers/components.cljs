@@ -50,5 +50,4 @@
 
 ;; todo: export islands definitions into levels
 (def islands [(island '(1 1) '(1 2) '(1 3))
-              (island '(7 8) '(7 9) '(8 8))
-              (island '(14 20) '(14 21) '(14 22) '(15 20) '(15 21) '(15 22))])
+              (island '(7 8) '(7 9) '(8 8))])
