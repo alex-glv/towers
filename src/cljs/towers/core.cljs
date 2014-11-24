@@ -7,14 +7,19 @@
             [domina :as dom])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn render-all [renderer stage]
+
+
+(defn setup-elements []
+
   (doseq [rend  @components/renderables]
     (let [obj (:obj rend)
           fn (:fn rend)
           cl-ch (:ch rend)]
-      (fn obj renderer stage cl-ch)))
-  (debug/log "Rendering")
-  (.render renderer stage))
+      (fn obj (:renderer render) (:stage render) cl-ch))))
+
+(defn render-all []
+  (.render (:renderer render) (:stage render))
+  (js/requestAnimFrame render-all))
 
 (defn clicks-listener [channel]
   (go (while true
@@ -25,14 +30,15 @@
   (let [canvas-dimensions (components/dimensions 960 640)
         field-dimensions (components/dimensions 832 640)
         grid-dimensions (components/dimensions 13 10)
-        renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h))
-        stage (new js/PIXI.Stage 0xFFFFFF true)
+        field (components/field field-dimensions grid-dimensions)
+        renderer (:renderer render)
+        stage (:stage render)
         clicks (chan)
         clicks-isl (chan)
-        field (components/field field-dimensions grid-dimensions)
         islands (map (fn [isl] (components/attach-cell isl field)) components/islands)]
     (clicks-listener clicks)
-    (dom/append! (dom/by-id "field") (.-view renderer))
+    (def render {:renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h))
+                 :stage (new js/PIXI.Stage 0xFFFFFF true)})
     (components/add-to components/renderables
                        {:obj field
                         :fn render/render-grid
@@ -41,5 +47,8 @@
                        {:obj islands
                         :fn render/render-islands
                         :ch clicks-isl})
-    (render-all renderer stage)))
+    (setup-elements)
+    (dom/append! (dom/by-id "field") (.-view (:renderer render)))
+    (render-all)))
+
 (set! (.-onload (.-body js/document)) handler)

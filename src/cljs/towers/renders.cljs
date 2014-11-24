@@ -21,19 +21,19 @@
   (let [texture (new js/PIXI.Texture.fromImage "images/tile.png")]
     (.log js/console texture)
     (doseq [isl islands]
-      (let [island-map (first isl) ;; fixme : iterate over all island cells
-            isl-img (new js/PIXI.Sprite texture)
-            x (-> island-map :cell :pos :x)
-            y (-> island-map :cell :pos :y)
-            w (-> island-map :cell :d :w)
-            h (-> island-map :cell :d :h)]
-        (set! (.-renderable isl-img) true)
-        ;; (set! (.-x (.-anchor isl-img)) 0.5)
-        ;; (set! (.-y (.-anchor isl-img)) 0.5)
-        (set! (.-interactive isl-img) true)
-        (set! (.-x (.-position isl-img)) x)
-        (set! (.-y (.-position isl-img)) y)
-        (set! (.-width isl-img) w)
-        (set! (.-height isl-img) h)
-        (.log js/console isl-img)
-        (.addChild stage isl-img)))))
+      (doseq [island-map isl]
+        (let [isl-img (new js/PIXI.Sprite texture)
+              x (-> island-map :cell :pos :x)
+              y (-> island-map :cell :pos :y)
+              w (-> island-map :cell :d :w)
+              h (-> island-map :cell :d :h)]
+          (set! (.-renderable isl-img) true)
+          ;; (set! (.-x (.-anchor isl-img)) 0.5)
+          ;; (set! (.-y (.-anchor isl-img)) 0.5)
+          (set! (.-interactive isl-img) true)
+          (set! (.-x (.-position isl-img)) x)
+          (set! (.-y (.-position isl-img)) y)
+          (set! (.-width isl-img) w)
+          (set! (.-height isl-img) h)
+          (.log js/console isl-img)
+          (.addChild stage isl-img))))))
