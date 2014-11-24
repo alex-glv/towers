@@ -12,7 +12,10 @@
       (set! (.-hitArea rect) (new js/PIXI.Rectangle (-> cell :pos :x) (-> cell :pos :y) (-> cell :d :w) (-> cell :d :h)))
       (set! (.-click rect) #(put! clicks cell)))))
 
+
+
 (defn render-islands [islands renderer stage click-isl]
+  (debug/log islands)
   ;; (doseq [isl-vec islands]
   ;;   (doseq [rec isl-vec]
   ;;     (let [isl-cell-pos (:cpos rec)

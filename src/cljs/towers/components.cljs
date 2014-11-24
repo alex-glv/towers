@@ -22,8 +22,16 @@
    :pos (position x y)
    :cpos (cell-pos ccol crow)})
 
-(defn island [col row]
-  {:cpos (cell-pos col row)})
+(defn attach-cell [island field]
+  (map (fn [island-cell]
+         (let [isl-col (:col island-cell)
+               isl-row (:row island-cell)
+               cell (first (filter #(and (= isl-col (-> % :cpos :col))
+                                         (= isl-row (-> % :cpos :row))) field))]
+           {:cpos island-cell :cell cell})) island))
+
+(defn island [& vec]
+  (map (fn [cpos] (apply cell-pos cpos)) vec))
 
 (defn field [f-dimensions grid]
   (let [h (/ (:h f-dimensions) (:h grid))
@@ -39,12 +47,8 @@
           (recur (+ n 1) (conj cells (cell h w x y col row))))
         cells))))
 
-(defn get-pos-from-cell-pos [cellpos]
-  )
 
 ;; todo: export islands definitions into levels
-(def islands [[(island 1 1) (island 1 2) (island 1 3)]
-              [(island 7 8) (island 7 9) (island 8 8)]
-              [(island 14 20) (island 14 21) (island 14 22) (island 15 20) (island 15 21) (island 15 22)]])
-
-
+(def islands [(island '(1 1) '(1 2) '(1 3))
+              (island '(7 8) '(7 9) '(8 8))
+              (island '(14 20) '(14 21) '(14 22) '(15 20) '(15 21) '(15 22))])

@@ -30,17 +30,18 @@
         stage (new js/PIXI.Stage 0xFFFFFF)
         clicks (chan)
         clicks-isl (chan)
-                          ;; (components/add-to components/renderables
-                          ;;                    {:obj components/islands
-                          ;;                     :fn render/render-islands
-                          ;;                     :ch clicks-isl})
-        ]
+        field (components/field field-dimensions grid-dimensions)
+        islands (map (fn [isl] (components/attach-cell isl field)) components/islands)]
     
     (clicks-listener clicks)
     (dom/append! (dom/by-id "field") (.-view renderer))
     (components/add-to components/renderables
-                       {:obj (components/field field-dimensions grid-dimensions)
+                       {:obj field
                         :fn render/render-grid
                         :ch clicks})
+    (components/add-to components/renderables
+                       {:obj islands
+                        :fn render/render-islands
+                        :ch clicks-isl})
     (render-all renderer stage)))
 (set! (.-onload (.-body js/document)) handler)
