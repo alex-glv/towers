@@ -47,7 +47,7 @@
           (recur (+ n 1) (conj cells (cell h w x y col row))))
         cells))))
 
-
 ;; todo: export islands definitions into levels
 (def islands [(island '(1 1) '(1 2) '(1 3))
-              (island '(7 8) '(7 9) '(8 8))])
+              (island '(7 8) '(7 9) '(8 8))
+              (island '(3 5) '(4 5) '(5 5) '(6 5))])

@@ -28,8 +28,6 @@
         field-dimensions (components/dimensions 832 640)
         grid-dimensions (components/dimensions 13 10)
         field (components/field field-dimensions grid-dimensions)
-        renderer (:renderer render)
-        stage (:stage render)
         clicks (chan)
         clicks-isl (chan)
         islands (map (fn [isl] (components/attach-cell isl field)) components/islands)]

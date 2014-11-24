@@ -18,6 +18,9 @@
   ([el] (set-interactive el true))
   ([el state] (set! (.-interactive el) state)))
 
+(defn get-texture-from-image [image-path]
+  (new js/PIXI.Texture.fromImage image-path))
+
 (defn get-sprite [texture]
   (new js/PIXI.Sprite texture))
 
@@ -35,10 +38,10 @@
 (defn render-islands [islands renderer stage click-isl]
   (debug/log "rendering islands")
   (debug/log islands)
-  (let [texture (new js/PIXI.Texture.fromImage "images/tile.png")]
+  (let [texture (get-texture-from-image "images/tile.png")]
     (doseq [isl islands]
       (doseq [island-map isl]
-        (let [isl-img (new js/PIXI.Sprite texture)]
+        (let [isl-img (get-sprite texture)]
           (set-interactive isl-img)
           (set-pos isl-img (-> island-map :cell :pos))
           (set-dim isl-img (-> island-map :cell :d))
