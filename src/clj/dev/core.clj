@@ -15,7 +15,7 @@
   ([handler]
      (cemerick.austin.repls/cljs-repl handler))
   ([] (start-cljs-repl (reset! cemerick.austin.repls/browser-repl-env
-                               (cemerick.austin/repl-env :host "devbox.planetarium" :port 9000)))))
+                               (cemerick.austin/repl-env :host "devbox.planetarium" :port 9000 )))))
 
 (enlive/deftemplate page
   (io/resource "public/index.html")
@@ -37,5 +37,6 @@
 
 (defn cleanup-refresh []
   (.stop server)
+  (reset! server nil)
   (cemerick.austin/stop-server)
   (refresh))

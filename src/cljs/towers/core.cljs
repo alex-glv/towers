@@ -31,6 +31,11 @@
 (def field-cl (components/field field-dim grid-dim))
 (def islands (map (fn [isl] (components/attach-cell isl field-cl)) components/islands))
 
+(defn teardown []
+  (reset! render nil)
+  (reset! components/renderables nil)
+  (dom/destroy-children! (dom/by-id "field")))
+
 (defn handler []
   (let [clicks (chan)
         clicks-isl (chan)]
