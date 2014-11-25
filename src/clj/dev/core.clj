@@ -15,7 +15,7 @@
   ([handler]
      (cemerick.austin.repls/cljs-repl handler))
   ([] (start-cljs-repl (reset! cemerick.austin.repls/browser-repl-env
-                               (cemerick.austin/repl-env :host "devbox.planetarium")))))
+                               (cemerick.austin/repl-env :host "devbox.planetarium" :port 9000)))))
 
 (enlive/deftemplate page
   (io/resource "public/index.html")
@@ -29,10 +29,11 @@
 
 (defn run
   []
-  (defonce ^:private server
+  (cemerick.austin/start-server 9000)
+  (def ^:private server
     (ring.adapter.jetty/run-jetty #'site {:port 8080 :join? false}))
-  (start-cljs-repl)
-  server)
+  ;; (start-cljs-repl)
+  server) 
 
 (defn cleanup-refresh []
   (.stop server)

@@ -7,43 +7,46 @@
             [domina :as dom])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn setup-elements []
+(defn setup-elements [render]
   (doseq [rend  @components/renderables]
     (let [obj (:obj rend)
           func (:fn rend)
           cl-ch (:ch rend)]
       (func obj (:renderer render) (:stage render) cl-ch))))
 
-(defn render-all []
+(defn render-all [render]
   (.render (:renderer render) (:stage render))
-  (js/requestAnimFrame render-all))
+  ;; (js/requestAnimFrame #(render-all render))
+  )
 
 (defn clicks-listener [channel]
+  (debug/log "Setting clicks listener" channel)
   (go (while true
         (let [cell (<! channel)]
           (debug/log "Cell clicked:" (-> cell :cpos :col) " at " (-> cell :cpos :row))))))
 
+(def canvas-dim (components/dimensions 960 640))
+(def field-dim (components/dimensions 832 640))
+(def grid-dim (components/dimensions 13 10))
+(def field-cl (components/field field-dim grid-dim))
+(def islands (map (fn [isl] (components/attach-cell isl field-cl)) components/islands))
+
 (defn handler []
-  (let [canvas-dimensions (components/dimensions 960 640)
-        field-dimensions (components/dimensions 832 640)
-        grid-dimensions (components/dimensions 13 10)
-        field (components/field field-dimensions grid-dimensions)
-        clicks (chan)
-        clicks-isl (chan)
-        islands (map (fn [isl] (components/attach-cell isl field)) components/islands)]
+  (let [clicks (chan)
+        clicks-isl (chan)]
     (clicks-listener clicks)
-    (def render {:renderer (.autoDetectRenderer js/PIXI (-> canvas-dimensions :w) (-> canvas-dimensions :h))
+    (def render {:renderer (.autoDetectRenderer js/PIXI (-> canvas-dim :w) (-> canvas-dim :h))
                  :stage (new js/PIXI.Stage 0xFFFFFF true)})
     (components/add-to components/renderables
-                       {:obj field
+                       {:obj field-cl
                         :fn render/render-grid
                         :ch clicks})
     (components/add-to components/renderables
                        {:obj islands
                         :fn render/render-islands
                         :ch clicks-isl})
-    (setup-elements)
+    (setup-elements render)
     (dom/append! (dom/by-id "field") (.-view (:renderer render)))
-    (render-all)))
+    (render-all render)))
 
 (set! (.-onload (.-body js/document)) handler)

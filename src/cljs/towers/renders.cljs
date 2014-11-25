@@ -37,7 +37,6 @@
 
 (defn render-islands [islands renderer stage click-isl]
   (debug/log "rendering islands")
-  (debug/log islands)
   (let [texture (get-texture-from-image "images/tile.png")]
     (doseq [isl islands]
       (doseq [island-map isl]
