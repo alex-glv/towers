@@ -4,7 +4,8 @@
             [towers.components :as components]
             [domina.css :refer [sel]]
             [cljs.core.async :refer [chan >! <!]]
-            [domina :as dom])
+            [domina :as dom]
+            [towers.pixi :as pixi])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn setup-elements [render]
@@ -32,16 +33,16 @@
 (def islands (map (fn [isl] (components/attach-cell isl field-cl)) components/islands))
 
 (defn teardown []
-  (reset! render nil)
   (reset! components/renderables nil)
-  (dom/destroy-children! (dom/by-id "field")))
+  (reset! pixi/render nil)
+  (dom/destroy-children! (dom/by-id "field"))
+  (dom/destroy-children! (dom/by-id "debug")))
 
 (defn handler []
   (let [clicks (chan)
         clicks-isl (chan)]
     (clicks-listener clicks)
-    (def render {:renderer (.autoDetectRenderer js/PIXI (-> canvas-dim :w) (-> canvas-dim :h))
-                 :stage (new js/PIXI.Stage 0xFFFFFF true)})
+    (pixi/bootstrap canvas-dim)
     (components/add-to components/renderables
                        {:obj field-cl
                         :fn render/render-grid
@@ -50,8 +51,8 @@
                        {:obj islands
                         :fn render/render-islands
                         :ch clicks-isl})
-    (setup-elements render)
-    (dom/append! (dom/by-id "field") (.-view (:renderer render)))
-    (render-all render)))
+    (setup-elements @pixi/render)
+    (dom/append! (dom/by-id "field") (.-view (:renderer @pixi/render)))
+    (render-all @pixi/render)))
 
 (set! (.-onload (.-body js/document)) handler)
