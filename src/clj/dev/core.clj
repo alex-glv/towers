@@ -30,13 +30,13 @@
 (defn run
   []
   (cemerick.austin/start-server 9000)
-  (def ^:private server
-    (ring.adapter.jetty/run-jetty #'site {:port 8080 :join? false}))
+  (def ^:private server (atom
+                         (ring.adapter.jetty/run-jetty #'site {:port 8080 :join? false})))
   ;; (start-cljs-repl)
-  server) 
+  server)
 
 (defn cleanup-refresh []
-  (.stop server)
+  (.stop @server)
   (reset! server nil)
   (cemerick.austin/stop-server)
   (refresh))

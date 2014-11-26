@@ -1,12 +1,13 @@
 (ns towers.components
-  (:require [towers.debug :as debug]))
+  (:require [towers.debug :as debug]
+            [towers.renders :as renders]))
 
 (def renderables (atom []))
 
 (def field-cells (atom []))
 
-(defn add-to [to {:keys [obj fn ch]}]
-  (swap! to conj {:obj obj :fn fn :ch ch}))
+(defn renderable! [obj func]
+  (swap! renderables conj {:obj obj :func func}))
 
 (defn dimensions [h w]
   {:h h :w w})
@@ -22,16 +23,21 @@
    :pos (position x y)
    :cpos (cell-pos ccol crow)})
 
-(defn attach-cell [island field]
-  (map (fn [island-cell]
-         (let [isl-col (:col island-cell)
-               isl-row (:row island-cell)
-               cell (first (filter #(and (= isl-col (-> % :cpos :col))
-                                         (= isl-row (-> % :cpos :row))) field))]
-           {:cpos island-cell :cell cell})) island))
+(defn get-cell [obj field]
+  (let [col (:col obj)
+        row (:row obj)
+        cell (first (filter #(and (= col (-> % :cpos :col))
+                                  (= row (-> % :cpos :row))) field))]
+    cell))
+
+;; fixme: add error handling when obj doesn't have cell-pos
+(defn map-cell-coll [coll field]
+  (map (fn [obj] (let [cell (get-cell obj field)]
+                   {:cpos obj :cell cell}))
+       coll))
 
 (defn island [& vec]
-  (map (fn [cpos] (apply cell-pos cpos)) vec))
+  (doall (map (fn [cpos] (apply cell-pos cpos)) vec)))
 
 (defn field [f-dimensions grid]
   (let [h (/ (:h f-dimensions) (:h grid))
@@ -47,6 +53,24 @@
           (recur (+ n 1) (conj cells (cell h w x y col row))))
         cells))))
 ;; todo: export islands definitions into levels
-(def islands [(island '(1 1) '(1 2) '(1 3))
-              (island '(7 8) '(7 9) '(8 8))
-              (island '(3 5) '(4 5) '(5 5) '(6 5))])
+
+(defn islands-map [islands field]
+  (doall (map (fn [island]
+                (renderable! (map-cell-coll island field) renders/render-island))
+              islands)))
+
+
+(defn resource-slot [x y h w c]
+  {:pos (position x y)
+   :dim (dimensions h w)
+   :contents c})
+;; where c can be rendered
+
+
+;; contents
+;; related object
+;;
+;; player -> [ .. slots .. ]
+;; slots -> [ (slot) (slot) ... ]
+;; resources -> [ ..  ..  .. ]
+;;

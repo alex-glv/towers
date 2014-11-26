@@ -14,4 +14,5 @@
     (dom/append prnt tm)
     (dom/append prnt entr)
     (dom/append log-div prnt)
+    (.log js/console els)
     (set! (.-scrollTop log-div) 10000000)))
