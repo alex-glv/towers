@@ -6,10 +6,18 @@
             ring.adapter.jetty
             [net.cgrand.enlive-html :as enlive]
             [compojure.core :refer [GET defroutes]]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [cljs.closure :as cljsc]))
 
 (defn -main []
   (println "dev ns loaded!"))
+
+
+(def config (read-string (slurp (io/resource "config.clj"))))
+
+(defn build-cljs []
+  (if-let [cljs-conf (:cljsbuild config)]
+    (cljsc/build (:source-paths cljs-conf) (:compiler cljs-conf))))
 
 (defn start-cljs-repl
   ([handler]

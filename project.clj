@@ -12,15 +12,6 @@
                  [enlive "1.1.5"]]
   
   :source-paths ["src/clj" "src/cljs"]
-  :plugins [[lein-cljsbuild "1.0.3"]
-            [com.cemerick/austin "0.1.5"]
+  :plugins [[com.cemerick/austin "0.1.5"]
             [cider/cider-nrepl "0.8.1"]]
-  :repl-options { :init-ns dev.core }
-  :cljsbuild {:builds
-              [{
-                :source-paths ["src/cljs"]
-                :compiler {;; CLS generated JS script filename
-                           :output-to "resources/public/js/towers.js"
-                           :output-dir "resources/public/js/"
-                           :externs ["resources/public/js/pixi.js"]
-                           :optimizations :whitespace}}]})
+  :repl-options { :init-ns dev.core })
