@@ -7,7 +7,7 @@
             [net.cgrand.enlive-html :as enlive]
             [compojure.core :refer [GET defroutes]]
             [clojure.java.io :as io]
-            [cljs.closure :as cljsc]))
+            [cljs.closure :refer [build]]))
 
 (defn -main []
   (println "dev ns loaded!"))
@@ -15,9 +15,23 @@
 
 (def config (read-string (slurp (io/resource "config.clj"))))
 
+(defn exec-on-dir [call-this dir opts]
+  (let [in-except? (fn [file]
+                     (not (empty?
+                           (filter #(= % file) (:except opts)))))]
+    (if (not (.isDirectory dir))
+      (when-not (in-except? (.getName dir))
+        (call-this dir))
+      (doseq [file-r (.listFiles dir)]
+        (exec-on-dir call-this file-r opts)))))
+
 (defn build-cljs []
+  (exec-on-dir io/delete-file
+             (-> (io/resource "public/js/")
+                 io/as-file)
+             {:except ["pixi.js"]}) ;; todo: extract except from config externs 
   (if-let [cljs-conf (:cljsbuild config)]
-    (cljsc/build (:source-paths cljs-conf) (:compiler cljs-conf))))
+    (build (:source-path cljs-conf) (:compiler cljs-conf))))
 
 (defn start-cljs-repl
   ([handler]
