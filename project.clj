@@ -25,5 +25,5 @@
                 {:output-dir "resources/public/js/out",
                  :externs ["resources/public/js/pixi.js"],
                  :optimizations :none,
-                 :output-to "resources/public/js/out/goog/towers.js"
+                 :output-to "resources/public/js/towers.js"
                  }}]})
