@@ -1,7 +1,6 @@
 (ns towers.repl
-  (:require [clojure.browser.repl]))
+  (:require [weasel.repl :as ws-repl]))
 
-(enable-console-print!)
-
+(ws-repl/connect "ws://devbox.planetarium:9001")
 
 

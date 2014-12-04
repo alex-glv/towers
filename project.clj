@@ -9,9 +9,21 @@
                  [compojure "1.2.1"]
                  [domina "1.0.2"]
                  [ring "1.2.2"]
-                 [enlive "1.1.5"]]
+                 [enlive "1.1.5"]
+                 [weasel "0.4.2"]
+                 [com.cemerick/piggieback "0.1.3"]]
   
   :source-paths ["src/clj" "src/cljs"]
-  :plugins [[com.cemerick/austin "0.1.5"]
-            [cider/cider-nrepl "0.8.1"]]
-  :repl-options { :init-ns dev.core })
+  :plugins [[cider/cider-nrepl "0.8.1"]
+            [lein-cljsbuild "1.0.3"]]
+  
+  :repl-options { :init-ns dev.core }
+  :cljsbuild {:builds
+              [{:source-paths ["src/cljs"],
+                :builds nil,
+                :compiler
+                {:output-dir "resources/public/js/out",
+                 :externs ["resources/public/js/pixi.js"],
+                 :optimizations :none,
+                 :output-to "resources/public/js/out/goog/towers.js"
+                 }}]})

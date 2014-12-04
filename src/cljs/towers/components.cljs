@@ -37,7 +37,7 @@
        coll))
 
 (defn island [& vec]
-  (doall (map (fn [cpos] (apply cell-pos cpos)) vec)))
+  (doall (map #(apply cell-pos %) vec)))
 
 (defn field [f-dimensions grid]
   (let [h (/ (:h f-dimensions) (:h grid))
