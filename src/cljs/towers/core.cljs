@@ -5,7 +5,8 @@
             [domina.css :refer [sel]]
             [cljs.core.async :refer [chan >! <!]]
             [domina :as dom]
-            [towers.pixi :as pixi])
+            [towers.pixi :as pixi]
+            [towers.repl :as repl])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn setup-elements [render renderables]

@@ -10,17 +10,18 @@
                  [domina "1.0.2"]
                  [ring "1.2.2"]
                  [enlive "1.1.5"]
-                 [weasel "0.4.2"]
+                 [weasel "0.4.3-SNAPSHOT"]
                  [com.cemerick/piggieback "0.1.3"]]
   
   :source-paths ["src/clj" "src/cljs"]
   :plugins [[cider/cider-nrepl "0.8.1"]
             [lein-cljsbuild "1.0.3"]]
-  
-  :repl-options { :init-ns dev.core }
+
+  :repl-options { :init-ns dev.core
+                 ;; :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]
+                 }
   :cljsbuild {:builds
               [{:source-paths ["src/cljs"],
-                :builds nil,
                 :compiler
                 {:output-dir "resources/public/js/out",
                  :externs ["resources/public/js/pixi.js"],
