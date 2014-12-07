@@ -9,16 +9,19 @@
             [towers.repl :as repl])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn setup-elements [render renderables]
-  (doseq [rend renderables]
-    (let [obj (:obj rend)
-          func (:func rend)]
-      (func obj (:stage render)))))
+(defn render-all []
+  (.render (:renderer @pixi/render) (:stage @pixi/render))
+  (js/requestAnimFrame render-all))
 
-(defn render-all [render]
-  (.render (:renderer render) (:stage render))
-  ;; (js/requestAnimFrame #(render-all render))
-  )
+(defn setup-elements []
+  (let [render @pixi/render
+        renderables @components/renderables]
+    (.log js/console "Assets loaded")
+    (doseq [rend renderables]
+      (let [obj (:obj rend)
+            func (:func rend)]
+        (func obj (:stage render))))
+    (render-all)))
 
 (def canvas-dim (components/dimensions 960 640))
 (def field-dim (components/dimensions 832 640))
@@ -38,7 +41,7 @@
 
   (pixi/bootstrap canvas-dim)
   (dom/append! (dom/by-id "field") (.-view (:renderer @pixi/render)))
-  (setup-elements @pixi/render @components/renderables)
-  (render-all @pixi/render))
+  (debug/log "Before loading assets...")
+  (renders/load-assets (fn [] (towers.core/setup-elements))))
 
 (set! (.-onload (.-body js/document)) handler)

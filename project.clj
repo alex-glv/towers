@@ -14,7 +14,7 @@
                  [com.cemerick/piggieback "0.1.3"]]
   
   :source-paths ["src/clj" "src/cljs"]
-  :plugins [[cider/cider-nrepl "0.8.1"]
+  :plugins [[cider/cider-nrepl "0.8.2-SNAPSHOT"]
             [lein-cljsbuild "1.0.3"]]
 
   :repl-options { :init-ns dev.core

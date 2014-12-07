@@ -1,0 +1,29 @@
+{"frames": {
+    "enclosed":
+    {
+	"frame": {"x":128,"y":128,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+    },
+    "single":
+    {
+	"frame": {"x":0,"y":0,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+    }
+    
+},
+ "meta": {
+     "app": "It's tedious",
+     "version": "1.0",
+     "image": "tiles.png",
+     "format": "RGBA8888",
+     "size": {"w":640,"h":320},
+     "scale": "1",
+     "smartupdate": "$TexturePacker:SmartUpdate:9e3e5afd01ea8e418afabfbdcd724485$"
+ }
+}

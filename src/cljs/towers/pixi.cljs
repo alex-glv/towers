@@ -16,7 +16,13 @@
   ([el state] (set! (.-interactive el) state)))
 
 (defn get-texture-from-image [image-path]
-  (new js/PIXI.Texture.fromImage image-path))
+  (let [texture (new js/PIXI.Texture.fromImage image-path)]
+    (.log js/console texture)))
+
+(defn get-texture-from-frame [frame-name]
+  (let [texture (js/PIXI.Texture.fromFrame frame-name)]
+    (.log js/console texture)
+    texture))
 
 (defn get-sprite [texture]
   (new js/PIXI.Sprite texture))
